@@ -207,8 +207,9 @@ class UserView(APIView):
         serializer = UserinfoSerializer(user)
         return Response(serializer.data)
 class Addquestion(APIView):
+    permission_classes = (AllowAny,)
     def post(self,request):
-        user=request.user
+        user=CustomUser.objects.get(id=1)
         easy=Question.objects.filter(level="1").values('id')
         normal=Question.objects.filter(level="2").values('id')
         difficult=Question.objects.filter(level="3").values('id')
@@ -223,6 +224,7 @@ class Addquestion(APIView):
         return Response(data)
 
 class AnswerAPI(APIView):
+    permission_classes = (AllowAny,)
     def post(self,request,id):
         answer=request.data.get('answer')
         questionuserid=request.data.get('questionuserid')
@@ -231,7 +233,7 @@ class AnswerAPI(APIView):
         answeruser=AnswerUser.objects.get(id=id)
         question=Question.objects.get(id=question_id)
         now=timezone.now()
-        user=request.user
+        user=CustomUser.objects.get(id=1)
         data={}
         time_experi=now-questionuser.created_at
         time=time_experi.seconds
