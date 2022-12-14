@@ -234,7 +234,7 @@ class AnswerAPI(APIView):
         question=Question.objects.get(id=question_id)
         user=CustomUser.objects.get(id=1)
         time_experi=now-questionuser.created_at
-        time=time_experi.total_seconds
+        time=time_experi.total_seconds()
         data={'time':time}
         if answer==question.answer:
             if time<=60: 
