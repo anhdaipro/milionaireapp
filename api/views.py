@@ -233,9 +233,10 @@ class AnswerAPI(APIView):
         answeruser=AnswerUser.objects.get(id=id)
         question=Question.objects.get(id=question_id)
         user=CustomUser.objects.get(id=1)
-        data={}
+        
         time_experi=now-questionuser.created_at
         time=time_experi.seconds
+        data={'time':time}
         if answer==question.answer:
             if time<=60: 
                 questionuser.correct=True
