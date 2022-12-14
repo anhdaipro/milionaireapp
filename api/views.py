@@ -254,7 +254,7 @@ class AnswerAPI(APIView):
                     nextid=answeruser.questions[index+1]['id']
                     question_next=Question.objects.get(id=nextid)
                     questionuser_next=QuestionUser.objects.create(user=user,question_id=nextid)
-                    data.update({'questionNumber':index+1+1,'correct':True,'question':QuestionSerializer(question_next).data,'questionuserid':questionuser.id})
+                    data.update({'questionNumber':index+1+1,'correct':True,'question':QuestionSerializer(question_next).data,'questionuserid':questionuser_next.id})
             else:
                 data.update({'correct':False,'message':"expiried"})
                 answeruser.complete=True
