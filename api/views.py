@@ -233,7 +233,7 @@ class SupportQuestion(APIView):
         
         data={}
         if support_type=='1':
-            chocie=[item for item in question.choice if item!=question.answer]
+            choice=[item for item in question.choice if item!=question.answer]
             choice_hiden=random.sample(list(choice),k=2)
             data.update({'choice_hiden':choice_hiden})
         else:
