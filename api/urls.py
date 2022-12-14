@@ -14,6 +14,6 @@ urlpatterns = [
     path("user/info", UserView.as_view()),
     path("addquestion", Addquestion.as_view()),
     path("answer/<int:id>", AnswerAPI.as_view()),
-    path("suport/<int:id>", SupportQuestion.as_view()),
+    path("support/<int:id>", SupportQuestion.as_view()),
     path("refresh", jwt_views.TokenRefreshView.as_view()),
 ]

@@ -226,16 +226,18 @@ def now():
     return timezone.now()
 class SupportQuestion(APIView):
     def post(self,request,id):
-        type_support=request.data.get('type_support')
+        support_type=request.data.get('support_type')
         question_id=request.data.get('question_id')
         question=Question.objects.get(id=question_id)
         answeruser=AnswerUser.objects.get(id=id)
+        
         data={}
-        if type_support=='1':
+        if support_type=='1':
             chocie=[item for item in question.choice if item!=question.answer]
             choice_hiden=random.sample(list(choice),k=2)
             data.update({'choice_hiden':choice_hiden})
         else:
+            user=CustomUser.objects.get(id=1)
             questions=Question.objects.filter(Q(level=question.level) & ~Q(id=question_id)).values('id')
             id_change=random.choice(list(questions))
             questions_update=[item if item['id']!=question_id else id_change for item in answeruser.questions]
