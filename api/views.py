@@ -224,10 +224,32 @@ class Addquestion(APIView):
         return Response(data)
 def now():
     return timezone.now()
+class SupportQuestion(APIView):
+    def post(self,request,id):
+        type_support=request.data.get('type_support')
+        question_id=request.data.get('question_id')
+        question=Question.objects.get(id=question_id)
+        answeruser=AnswerUser.objects.get(id=id)
+        data={}
+        if type_support=='1':
+            chocie=[item for item in question.choice if item!=question.answer]
+            choice_hiden=random.sample(list(choice),k=2)
+            data.update({'choice_hiden':choice_hiden})
+        else:
+            questions=Question.objects.filter(Q(level=question.level) & ~Q(id=question_id)).values('id')
+            id_change=random.choice(list(questions))
+            questions_update=[item if item['id']!=question_id else id_change for item in answeruser.questions]
+            question_change=Question.objects.get(id=id_change['id'])
+            answeruser.questions=questions_update
+            answeruser.save()
+            questionuser_change=QuestionUser.objects.create(user=user,question_id=id_change['id'])
+            data.update({'question':QuestionSerializer(question_change).data,'questionuserid':questionuser_change.id})
+        return Response(data)
 class AnswerAPI(APIView):
     permission_classes = (AllowAny,)
     def post(self,request,id):
         answer=request.data.get('answer')
+        support=request.data.get('support')
         questionuserid=request.data.get('questionuserid')
         questionuser=QuestionUser.objects.get(id=questionuserid)
         question_id=request.data.get('question_id')
@@ -238,7 +260,7 @@ class AnswerAPI(APIView):
         time=time_experi.total_seconds()
         data={'time':time}
         if answer==question.answer:
-            if time<=60: 
+            if time<=60 or support: 
                 questionuser.correct=True
                 questionuser.save()
                 answeruser.answers.add(questionuser)

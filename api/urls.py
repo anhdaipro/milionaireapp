@@ -1,7 +1,7 @@
 from .views import (LoginView,UserView,
 RegisterView,
 SocialLoginView,Addquestion,
-AnswerAPI
+AnswerAPI,SupportQuestion
 )
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
@@ -14,6 +14,6 @@ urlpatterns = [
     path("user/info", UserView.as_view()),
     path("addquestion", Addquestion.as_view()),
     path("answer/<int:id>", AnswerAPI.as_view()),
-    
+    path("suport/<int:id>", SupportQuestion.as_view()),
     path("refresh", jwt_views.TokenRefreshView.as_view()),
 ]
