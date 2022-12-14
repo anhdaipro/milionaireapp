@@ -222,7 +222,7 @@ class Addquestion(APIView):
         first_question=Question.objects.get(id=easy_list[0]['id'])
         data={'question':QuestionSerializer(first_question).data,'id':anwsers.id,'questionuserid':questionuser.id}
         return Response(data)
-
+now=timezone.now()
 class AnswerAPI(APIView):
     permission_classes = (AllowAny,)
     def post(self,request,id):
@@ -232,7 +232,6 @@ class AnswerAPI(APIView):
         question_id=request.data.get('question_id')
         answeruser=AnswerUser.objects.get(id=id)
         question=Question.objects.get(id=question_id)
-        now=timezone.now()
         user=CustomUser.objects.get(id=1)
         data={}
         time_experi=now-questionuser.created_at
