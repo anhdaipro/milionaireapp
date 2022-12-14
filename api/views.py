@@ -260,7 +260,7 @@ class AnswerAPI(APIView):
         user=CustomUser.objects.get(id=1)
         time_experi=timezone.now()-questionuser.created_at
         time=time_experi.total_seconds()
-        data={'time':time}
+        data={}
         if answer==question.answer:
             if time<=60 or support: 
                 questionuser.correct=True
