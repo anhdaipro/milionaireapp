@@ -1,6 +1,6 @@
 from .views import (LoginView,UserView,
 RegisterView,
-SocialLoginView,Addquestion,
+SocialLoginView,Addquestion,Addquestions,
 AnswerAPI,SupportQuestion
 )
 from django.urls import path
@@ -12,6 +12,7 @@ urlpatterns = [
     path("signup", RegisterView.as_view()),
     path("login", LoginView.as_view()),
     path("user/info", UserView.as_view()),
+    path("add/question", Addquestions.as_view()),
     path("addquestion", Addquestion.as_view()),
     path("answer/<int:id>", AnswerAPI.as_view()),
     path("support/<int:id>", SupportQuestion.as_view()),
