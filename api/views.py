@@ -210,14 +210,15 @@ class Addquestion(APIView):
     permission_classes = (AllowAny,)
     def post(self,request):
         user=CustomUser.objects.get(id=1)
-        easy=Question.objects.filter(level="1").values('id')
-        normal=Question.objects.filter(level="2").values('id')
-        difficult=Question.objects.filter(level="3").values('id')
-        easy_list=random.sample(list(easy),k=5)
-        normal_list=random.sample(list(normal),k=5)
-        difficult_list=random.sample(list(difficult),k=5)
-        questions=easy_list+normal_list+difficult_list
-        anwsers=AnswerUser.objects.create(user=user,questions=questions)
+        questions=Question.objects.all()
+        easy=questions.filter(level='1')
+        normal=questions.filter(level="2")
+        difficult=questions.filter(level="3")
+        easy_list=random.sample(list(easy.values('id')),k=5)
+        normal_list=random.sample(list(normal.values('id')),k=5)
+        difficult_list=random.sample(list(difficult.values('id')),k=5)
+        list_questions=easy_list+normal_list+difficult_list
+        anwsers=AnswerUser.objects.create(user=user,questions=list_questions)
         questionuser=QuestionUser.objects.create(user=user,question_id=easy_list[0]['id'])
         first_question=Question.objects.get(id=easy_list[0]['id'])
         data={'question':QuestionSerializer(first_question).data,'id':anwsers.id,'questionuserid':questionuser.id}
