@@ -32,16 +32,10 @@ from django.contrib.auth import authenticate,login,logout
 from .serializers import (RegisterSerializer,UserinfoSerializer,VerifyEmailSerializer,QuestionSerializer)
 from social_django.utils import load_strategy, load_backend
 from django.core.mail import EmailMessage
-import paypalrestsdk
-from paypalrestsdk import Sale
+
 from rest_framework import generics, permissions, status, views
 from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
 # Create your views here.,
-paypalrestsdk.configure({
-  'mode': 'sandbox', #sandbox or live
-  'client_id': 'AY2deOMPkfo32qrQ_fKeXYeJkJlAGPh5N-9pdDFXISyUydAwgRKRPRGhiQF6aBnG68V6czG5JsulM2mX',
-  'client_secret': 'EJBIHj3VRi77Xq3DXsQCxyo0qPN7UFB2RHQZ3DOXLmvgNf1fXWC5YkKTmUrIjH-jaKMSYBrH4-9RjiHA' })
-
 account_sid = settings.TWILIO_ACCOUNT_SID
 auth_token = settings.TWILIO_AUTH_TOKEN
 client = Client(account_sid, auth_token)
