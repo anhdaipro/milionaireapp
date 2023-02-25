@@ -290,12 +290,15 @@ class AnswerAPI(APIView):
             answeruser.save()
         
         return Response(data)
-
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 class Addquestions(APIView):
     def post(self,request):
-        questions=request.data.get('questions',[])
-        list_questions=[Question(question=item['question'],choice=item['choice'],answer=item['answer'],level=item['level']) for item in questions]
-        Question.objects.bulk_create(
-           list_questions
-        )
-        return Response({'success':True})
+        print(request.headers)
+        print(get_client_ip(request))
+        return Response({'id':get_client_ip(request),'success':True,'headers':request.headers})
